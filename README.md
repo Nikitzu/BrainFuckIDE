@@ -1,5 +1,5 @@
 #######This Paint tool was created by team
-# PBrain Fuck IDE
+# Brain Fuck IDE
 ####Test project created using AngularJS/NodeJS/MongoDB.
 ## How to run this project on your computer
 #####1. Install NodeJS on your computer from the official site. Add it to the PATH.
