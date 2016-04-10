@@ -1,0 +1,91 @@
+<% layout('./layout/page') %>
+<% block('title', "BrainFuck") %>
+<html ng-app="brainApp" xmlns="http://www.w3.org/1999/html">
+<body onload="init();" style="margin-top: 50px" ng-controller="View1Controller">
+<script language="Javascript" src="/sourse/array.js"></script>
+<script src="angular/angular.js"></script>
+<script src="/sourse/array.js"></script>
+<script src="/sourse/sourseCode.js"></script>
+<script type="text/javascript" src="sourse/ng-infinite-scroll.js"></script>
+<script src="sourse/infinityScroll.js"></script>
+<script src="view1/view1.js"></script>
+<script src="/view1/brainApp.js"></script>
+<script src="/sourse/array.js"></script>
+<script src="/sourse/sourseCode.js"></script>
+<script src="/view1/source-service.js"></script>
+<script src="/view1/sourcelist.js"></script>
+<script src="view1/drop-directive.js"></script>
+
+<div id="page">
+    <form name="mainform" id="mainform">
+        <table align="center" style="width: 98vw">
+            <tr>
+                <td colspan="3" align="center">
+                    <div class="container-fluid" style="border: solid lightgray 1px">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <input title="Run programm" style="margin-right: 5px; margin-left: 110px; background: rgba(253, 253, 254, 1)" type="image" src="sourse/player_play%20(1).png" height="35px" width="46px"  ng-click="is_debug = false; setTimeout(0)" value="Run" onclick="run(this.form);" id="button_run" class="btn-default btn-sm"><span class="sr-only">(current)</span>
+                            </li>
+                            <li>
+                                <input title="Enter debug mode" style="margin-right: 5px; background: rgba(253, 253, 254, 1)" type="image" src="sourse/player_rewind.png" height="35px" width="46px"  ng-click="is_debug = true; setTimeout(80)"  value="Start Debugger" onclick="debug_toggle(this.form);" id="button_debug" class="btn-default btn-sm"><span class="sr-only">(current)</span>
+                            </li>
+                            <li>
+                                <input title="Step in" style="margin-right: 5px; background: rgba(253, 253, 254, 1)" type="image" src="sourse/direction_right.png" height="35px" width="46px"  ng-click=""  value="Single Step" onclick="run_step();" disabled id="button_step" class="btn-default btn-sm"><span class="sr-only">(current)</span>
+                            </li>
+                            <li>
+                                <input title="Run to breakpoint" style="margin-right: 5px; background: rgba(253, 253, 254, 1)" type="image" src="sourse/Arrow%20(1).png" height="35px" width="46px"  ng-click=""  value="Run To Breakpoint" onclick="run_debug();" disabled id="button_run_debug" class="btn-default btn-sm"><span class="sr-only">(current)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-controller="SourceFileListController">
+                <td rowspan="1" valign="top" drop-directive style="padding-right: 2px">
+                    <b>Files:</b>
+                    <div  style="width: 89%; height: 406px; overflow: auto; border: lightgray 1px solid">
+                        <div ng-repeat="file in sourceFiles">
+                            <sourcefiles-directive></sourcefiles-directive>
+                        </div>
+                    </div>
+                    <div style="width: 120px;" >
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <input title="Create new file" style=" background: rgba(253, 253, 254, 1);" type="image" src="sourse/file_add.png" height="27px" width="37px"  value="New" ng-click="new()" id="button_save" class="btn-default btn-sm">
+                            </li>
+                            <li>
+                                <input title="Delete file" style=" background: rgba(253, 253, 254, 1);"  type="image" src="sourse/file_delete.png" height="27px" width="37px"  value="Del" ng-click="remove()" id="button_save" class="btn-default btn-sm">
+                            </li>
+                            <li>
+                                <input title="Save file" style=" background: rgba(253, 253, 254, 1);"  type="image" src="sourse/diskette.png" height="27px" width="37px"  value="Save" ng-click="save()" id="button_save" class="btn-default btn-sm"><span class="sr-only">(current)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td style="max-width: 1050px;padding-right: 15px" valign="top">
+                    <b>Edit:</b>
+                    <textarea style="font-family: Courier New, monospace; border: lightgray 1px solid" cols="127" rows="20" id="edit_source" name="source" wrap="virtual" class="edit" ng-model="file.text"></textarea><br>
+                    <b>Output:</b>
+                    <pre class="viewer" id="outputview" style="height: 90px"> </pre>
+                </td>
+                <td rowspan="2" valign="top">
+                    <b>Memory:</b>
+                    <style>.inuse {background: rgba(93, 131, 165, 1) }</style>
+                    <div infinite-scroll="loadMore()" class="scroll" style="min-height: 406px; max-width: 165px">
+                        <div ng-repeat="line in lines" class="viewer">
+                           <p><input style="border: hidden; background: white" size="4" disabled="true" type="text" ng-value="'0x'+ $index.toString(16)">
+                            <input type="number" min="0" style="max-width: 40px; border: hidden" id="mem" onfocusout="if(value < 0 || value > 255 || value.length == 0) value = 0;" ng-class="{inuse: is_debug && getMemory() == $index}" type="text" ng-model="memory[$index]">
+                            <input style="border: hidden; background: white" size="1" disabled="true" ng-value="tochar(memory[$index])"></p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr valign="top" >
+                <td colspan="3" style="border-top: solid 1px lightgray;border-bottom: solid 1px lightgray; ">
+                    <em>The hash ("#") character marks a breakpoint.</em>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

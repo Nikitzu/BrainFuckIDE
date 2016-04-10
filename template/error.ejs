@@ -1,0 +1,6 @@
+<% layout('./layout/page') -%>
+<% block('title', error.message) -%>
+<link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+<p class="col-lg-offset-2" style="padding-top: 50px">Sorry, error occured!</p>
+<p class="col-lg-offset-2"><%=error.message%></p>
