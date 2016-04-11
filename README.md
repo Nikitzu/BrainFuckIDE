@@ -7,5 +7,5 @@
 #####3. Run mongod from your terminal and create a database usig --dbpath flag.
 #####4. Open this project in IDE(for exaple: WebStorm). 
 #####5. Choose start configurations(Windows) or change the path to node and save new configuration.
-#####6. Run project from IDE and open localhost/3000.
+#####6. Run project from IDE and open localhost:3000.
 #####7. Enjoy!
